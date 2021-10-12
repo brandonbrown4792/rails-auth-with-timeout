@@ -1,0 +1,1 @@
+This is a test rails / react app with authentication timeout
