@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AuthContext } from '../utils/context';
+import { AuthContext } from '../Context/AuthContext';
 
 const styles = {
   containerStyles: {
