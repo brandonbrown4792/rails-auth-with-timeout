@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../utils/context';
 
 const styles = {
   containerStyles: {
@@ -7,7 +8,8 @@ const styles = {
   },
 };
 
-const LoginForm = ({ loginUser, logoutUser }) => {
+const LoginForm = () => {
+  const { loginUser, logoutUser } = useContext(AuthContext);
   const handleLogin = e => {
     e.preventDefault();
     loginUser(e.target.username.value, e.target.password.value);
