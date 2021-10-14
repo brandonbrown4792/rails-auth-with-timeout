@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useSnackbar } from 'notistack';
 
 const TIMEOUT = 5000;
 let authIntervalTimer = null;
@@ -7,6 +8,7 @@ let authIntervalTimer = null;
 export const useAuth = () => {
   const dispatch = useDispatch();
   const [authTime, setAuthTime] = useState(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   // Get user fetch
   const getUser = useCallback(() => {
@@ -28,15 +30,15 @@ export const useAuth = () => {
             setAuthTime(new Date(data.user.last_logged_in).getTime());
           }
           else if (data.message) {
-            console.log(data.message);
+            enqueueSnackbar(data.message, { variant: 'error' });
           }
           else {
-            console.error('Sorry there was an error with the request');
+            enqueueSnackbar('Sorry there was an error with the request', { variant: 'error' });
           }
         })
-        .catch(err => console.error('Sorry there was an error with that request', err));
+        .catch(err => enqueueSnackbar(`Sorry there was an error with that request: ${err}`, { variant: 'error' }));
     }
-  }, [dispatch]);
+  }, [dispatch, enqueueSnackbar]);
 
   // useEffect to load user on initial load (runs one time when hook is initialized)
   useEffect(() => {
@@ -71,14 +73,14 @@ export const useAuth = () => {
         else {
           localStorage.removeItem('auth_token');
           dispatch({ type: 'SET_USER', user: {} })
-          alert(data.message);
+          enqueueSnackbar(data.message, { variant: 'error' });
         }
       })
       .catch(() => {
         localStorage.removeItem('auth_token');
-        alert('Something went wrong');
+        enqueueSnackbar('Something went wrong', { variant: 'error' });
       });
-  }, [dispatch]);
+  }, [dispatch, enqueueSnackbar]);
 
   // Function to use to log out user (exported from hook)
   const logoutUser = useCallback(() => {
