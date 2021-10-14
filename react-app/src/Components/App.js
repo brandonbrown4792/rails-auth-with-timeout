@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AuthProvider from '../Context/AuthProvider';
+import AuthProvider from '../Contexts/AuthProvider';
 import LoginForm from './LoginForm';
 import UserInformation from './UserInfo';
 
